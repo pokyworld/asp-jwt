@@ -52,16 +52,12 @@ const getFbUserData = (fbToken) => {
 
 // Logout from facebook
 const fbLogout = () => {
-    const fbAuth = {
-        apiVersion: "v3.3",
-        appId: "2414357575502006"
-    };
-
+    
     FB.init({
-        appId: fbAuth.appId,
+        appId: config.facebook.appId,
         autoLogAppEvents: true,
         xfbml: true,
-        version: fbAuth.apiVersion
+        version: config.facebook.apiVersion
     });
 
     FB.getLoginStatus((res) => {

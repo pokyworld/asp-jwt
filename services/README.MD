@@ -1,3 +1,8 @@
+# asp-jwt
+# Author: Des Butler - 2019
+
+Main URL: https://pokyworld.local
+
 Service URL: https://api.pokyworld.local:8443/vb/login.asp (POST)
 
 Sample Data JSON:

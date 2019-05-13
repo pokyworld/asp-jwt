@@ -39,7 +39,9 @@
     <script src="config/index.js"></script>
     <script src="scripts/fbLogin.js"></script>
     <script>
+        var fbToken = "";
         var fbLoggedIn = false;
+
         if(window.addEventListener) {
             window.addEventListener('load', () => {
                 document.querySelector('#fbLoginButton').addEventListener('click', () => {

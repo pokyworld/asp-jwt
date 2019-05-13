@@ -1,7 +1,6 @@
 
 // Login to Facebook - imports from config & updates global var: fbLoggedIn
 const fbLogin = () => {
-    let fbToken = "";
 
     FB.init({
         appId: config.facebook.appId,
@@ -32,7 +31,6 @@ const fbLogin = () => {
         } else {
             fbToken = res.authResponse.accessToken;
             getFbUserData(fbToken);
-            return fbToken;
         }
     });
 };

@@ -44,6 +44,8 @@
 
         if(window.addEventListener) {
             window.addEventListener('load', () => {
+
+                // Facebook Login
                 document.querySelector('#fbLoginButton').addEventListener('click', () => {
                     if(!fbLoggedIn) { 
                         fbLogin();
@@ -51,6 +53,7 @@
                         fbLogout();
                     }
                 }, false);
+                
             }, false); //W3C
         } else {
             alert("This browser no longer supported");

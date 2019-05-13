@@ -19,10 +19,11 @@
 </head>
 <body>
     <div class="container">
-        <button id="fbLoginButton" type="button" class="btn btn-lg" onClick="fbLogin();">
+        <button id="fbLoginButton" type="button" class="btn btn-lg">
             <i class="fab fa-facebook-f"></i>&nbsp;<span id="fbLoginText">Login with Facebook</span>
         </button>
         <p id="fbStatus"></p>
+        <p id="fbToken"></p>
     </div>
 
     <!--JQuery -->
@@ -35,9 +36,23 @@
     <!-- Facebook SDK s-->
     <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
 
+    <script src="config/index.js"></script>
     <script src="scripts/fbLogin.js"></script>
     <script>
-    
+        var fbLoggedIn = false;
+        if(window.addEventListener) {
+            window.addEventListener('load', () => {
+                document.querySelector('#fbLoginButton').addEventListener('click', () => {
+                    if(!fbLoggedIn) { 
+                        fbLogin();
+                    } else {
+                        fbLogout();
+                    }
+                }, false);
+            }, false); //W3C
+        } else {
+            alert("This browser no longer supported");
+        }
     </script>
 </body>
 </html>

@@ -1,16 +1,13 @@
-// Login to Facebook
-const fbLogin = () => {
 
-    const fbAuth = {
-        apiVersion: "v3.3",
-        appId: "2414357575502006"
-    };
+// Login to Facebook - imports from config & updates global var: fbLoggedIn
+const fbLogin = () => {
+    let fbToken = "";
 
     FB.init({
-        appId: fbAuth.appId,
+        appId: config.facebook.appId,
         autoLogAppEvents: true,
         xfbml: true,
-        version: fbAuth.apiVersion
+        version: config.facebook.apiVersion
     });
 
     FB.getLoginStatus((res) => {
@@ -19,32 +16,36 @@ const fbLogin = () => {
             FB.login((res) => {
                 if (res.authResponse) {
                     FB.getLoginStatus((res) => {
-                        if (res.authResponse) console.log("Token : ", res.authResponse.accessToken);
+                        if (res.authResponse) {
+                            fbToken = res.authResponse.accessToken;
+                        }
                     });
                     FB.api('/me', (res) => {
-                        console.log(`Login: Now logged in as: ${res.name}`);
+                        // console.log(`Login: Now logged in as: ${res.name}`);
+                        getFbUserData(fbToken);
+                        return fbToken;
                     });
-                    getFbUserData();
                 } else {
                     console.log('Login: User cancelled login or did not fully authorize.');
                 }
             }, { scope: ['email'], location: 0 });
         } else {
-            console.log("Token : ", res.authResponse.accessToken);
-            getFbUserData();
+            fbToken = res.authResponse.accessToken;
+            getFbUserData(fbToken);
+            return fbToken;
         }
     });
 };
 
 // Get FB User Data
-const getFbUserData = () => {
+const getFbUserData = (fbToken) => {
+    // console.log(fbToken);
     FB.api('/me', { locale: 'en_US', fields: 'id,name,first_name,last_name,email,link,gender,location,picture' },
         (res) => {
-            console.log(res);
             document.querySelector('#fbLoginText').innerHTML = 'Logout from  Facebook.';
-            document.querySelector("#fbLoginButton").setAttribute("onclick", "fbLogout();")
             document.querySelector('#fbStatus').innerHTML = `Logged in as: ${res.name}`;
-
+            document.querySelector('#fbToken').innerHTML = `${fbToken}`;
+            fbLoggedIn = true;
         }
     );
 }
@@ -66,10 +67,10 @@ const fbLogout = () => {
     FB.getLoginStatus((res) => {
         if (res.authResponse) {
             FB.logout(() => {
-                document.querySelector('#fbLoginButton').setAttribute("onclick", "fbLogin()");
                 document.querySelector('#fbLoginText').innerHTML = 'Login with Facebook.';
                 document.querySelector('#fbStatus').innerHTML = `Logged out`;
-
+                document.querySelector('#fbToken').innerHTML = "";
+                fbLoggedIn = false;
             });
         }
     });
